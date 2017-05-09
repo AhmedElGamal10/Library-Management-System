@@ -167,7 +167,7 @@ public class Connector{
                     .title(Components.text("Top 5 customers who purchase the most purchase amount in descending order for the last three\n" + "months")
                             .setHorizontalAlignment(HorizontalAlignment.CENTER))
                     .pageFooter(Components.pageXofY())//show page number on the page footer
-                    .setDataSource("SELECT User_name, SUM(Book_price * Num_books) AS total FROM SHOPPING_CART WHERE Confirmed=1 AND  Con_date >= date_sub(NOW(), INTERVAL 3 MONTH) GROUP BY User_name ORDER BY total DESC", Engine.CONNECTION);
+                    .setDataSource("SELECT User_name, SUM(Book_price * Num_books) AS total FROM SHOPPING_CART WHERE Confirmed=1 AND  Con_date >= date_sub(NOW(), INTERVAL 3 MONTH) GROUP BY User_name ORDER BY total DESC limit 5", Engine.CONNECTION);
 
 
             JasperReportBuilder report3 = DynamicReports.report();
@@ -182,7 +182,7 @@ public class Connector{
                             Components.text("Top 10 selling books for the last three months")
                                     .setHorizontalAlignment(HorizontalAlignment.CENTER))
                     .pageFooter(Components.pageXofY())//show page number on the page footer
-                    .setDataSource("SELECT B.ISBN ,Title ,SUM(Num_books) AS S FROM SHOPPING_CART AS SC , BOOK AS B WHERE B.ISBN= SC.ISBN AND Confirmed=1 AND  Con_date >= date_sub(NOW(), INTERVAL 3 MONTH)  GROUP BY ISBN ORDER  BY S DESC",
+                    .setDataSource("SELECT B.ISBN ,Title ,SUM(Num_books) AS S FROM SHOPPING_CART AS SC , BOOK AS B WHERE B.ISBN= SC.ISBN AND Confirmed=1 AND  Con_date >= date_sub(NOW(), INTERVAL 3 MONTH)  GROUP BY ISBN ORDER  BY S DESC limit 10",
                             Engine.CONNECTION);
 
 

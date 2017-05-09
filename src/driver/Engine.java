@@ -20,6 +20,8 @@ public class Engine {
     static final String PASS = "1111";
     static final String MgrSecurityCode = "0000";
 
+    public static int IS_MANAGER = 0;
+
     public static Connection CONNECTION = null;
     public static Statement STATEMENT = null;
     public static int WINDOW_WIDTH=900;

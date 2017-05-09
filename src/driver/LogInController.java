@@ -14,6 +14,7 @@ import static driver.Engine.STATEMENT;
 /**
  * Created by salma on 03/05/17.
  */
+
 public class LogInController {
     LogInUI ui;
 
@@ -23,7 +24,6 @@ public class LogInController {
 
     public class SignInBtnListener implements ActionListener {
 
-
         @Override
         public void actionPerformed(ActionEvent e) {
             ResultSet rs = null;
@@ -32,9 +32,9 @@ public class LogInController {
             try {
                 rs = STATEMENT.executeQuery(sql);
                 rs.next();
-                int isManager = rs.getInt("Is_manager");
+                Engine.IS_MANAGER = rs.getInt("Is_manager");
 
-                if (isManager == 1) {
+                if (Engine.IS_MANAGER == 1) {
                     new ManagerUI();
                     ui.setVisible(false); //you can't see me!
                     ui.dispose();

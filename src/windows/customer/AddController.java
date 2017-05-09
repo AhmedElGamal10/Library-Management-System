@@ -32,7 +32,7 @@ public class AddController {
 
 
     private String updateBookSQL = "UPDATE BOOK set col = val WHERE ISBN = book_ISBN ";
-    String deleteBookAuthorsSQL= "DELETE FROM AUTHOR WHERE ISBN = book_ISBN";
+    String deleteBookAuthorsSQL = "DELETE FROM AUTHOR WHERE ISBN = book_ISBN";
     String insetAuthorSQL = " INSERT INTO AUTHOR  VALUES (book_ISBN, author_name)";
 
     public AddController(AddUI ui) {
@@ -60,23 +60,23 @@ public class AddController {
             ui.getContentPane().removeAll();
 
 
-            ui.modifying(table.getValueAt(table.getSelectedRow(),3).toString());
+            ui.modifying(table.getValueAt(table.getSelectedRow(), 3).toString());
             ui.repaint();
         }
     }
 
 
     protected class updateBookBtnListener implements ActionListener {
-        private windows.manager.BookInfoForm jp=ui.modifyingBookPanel;
+        private windows.manager.BookInfoForm jp = ui.modifyingBookPanel;
 
 
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            String s1 = replce_string(updateBookSQL, "book_ISBN", ui.getTable().getValueAt(ui.getTable().getSelectedRow(),3).toString(), false);
+            String s1 = replce_string(updateBookSQL, "book_ISBN", ui.getTable().getValueAt(ui.getTable().getSelectedRow(), 3).toString(), false);
             /*author*/
             String new_ISBN = jp.ISBN_v.getText();
-            String s2 = replce_string(deleteBookAuthorsSQL,"book_ISBN",new_ISBN,false);
+            String s2 = replce_string(deleteBookAuthorsSQL, "book_ISBN", new_ISBN, false);
 
 
             try {
@@ -126,7 +126,7 @@ public class AddController {
                 /*delete all authors for this isbn */
                 Engine.STATEMENT.executeUpdate(s2);
 
-                boolean noAuthors =jp.authorsTF.getText().isEmpty();
+                boolean noAuthors = jp.authorsTF.getText().isEmpty();
                 String[] authors;
                 if (!noAuthors) {
 
@@ -139,7 +139,7 @@ public class AddController {
 
 
                     for (int i = 1; i < authors.length; i++) {
-                        s3 = s3.replace(authors[i-1],authors[i]);
+                        s3 = s3.replace(authors[i - 1], authors[i]);
 
                         Engine.STATEMENT.executeUpdate(s3);
                     }
@@ -194,7 +194,7 @@ public class AddController {
 
                 if (selectedRow != -1) {
                     String number = ui.getNumberOfCopies();
-                    if(number == null)
+                    if (number == null)
                         return;
 
                     int numberOfCopies = Integer.parseInt(number);
@@ -243,7 +243,11 @@ public class AddController {
             searchValue = ui.getSearchValue();
 
             if (name != null && !searchValue.equals("")) {
-                String sql = "SELECT * FROM BOOK WHERE " + name + " = \"" + searchValue + "\"";
+                String sql;
+                if (!name.equals("Author"))
+                    sql = "SELECT * FROM BOOK WHERE " + name + " = \"" + searchValue + "\"";
+                else
+                    sql = "SELECT * FROM BOOK , AUTHOR WHERE BOOK.ISBN = AUTHOR.ISBN";
 
                 DefaultTableModel dm = (DefaultTableModel) ui.getModel();
                 int rowCount = ui.getModel().getRowCount();
@@ -259,7 +263,7 @@ public class AddController {
                         String book = rs.getString("Title");
                         String price = rs.getString("Price");
                         String No_of_copies = rs.getString("Copies_num");
-                        model.addRow(new Object[]{book, price, No_of_copies,ISBN});
+                        model.addRow(new Object[]{book, price, No_of_copies, ISBN});
                     }
 
                 } catch (Exception e1) {

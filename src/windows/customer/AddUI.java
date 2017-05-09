@@ -105,8 +105,10 @@ public class AddUI extends JFrame {
 
 
         JButton modifyBtn = new JButton("Modify Book");
-        modifyBtn.setBounds(200, 495, 117, 25);
-        this.getContentPane().add(modifyBtn);
+        modifyBtn.setBounds(200, 495, 200, 25);
+
+        if(Engine.IS_MANAGER == 1)
+            this.getContentPane().add(modifyBtn);
 
         modifyBtn.addActionListener(addController.getStartModifyingBtnListener());
         btnSearch.addActionListener(addController.getSearchBtnListener());
